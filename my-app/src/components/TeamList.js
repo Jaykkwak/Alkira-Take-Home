@@ -25,7 +25,11 @@ const TeamList = () => {
 
     const getGameData = async() =>{
         try{
-            const data = await axios.get("http://balldontlie.io/api/v1/games?seasons[]=2021");
+            const data = await axios.get("https://www.balldontlie.io/api/v1/games?seasons[]=2021", {
+                headers: {
+                    "Access-Control-Allow-Origin": "http://localhost:3000/"
+                    }
+            });
             setGames(data.data.data);
         } catch(err){
             console.log(err);
@@ -58,7 +62,7 @@ const TeamList = () => {
     }
 
     let countGame = games.filter((game) => {
-        return game.home_team.id === 1 || game.visitor_team === 1
+        return game
     })
 
     console.log(countGame)
