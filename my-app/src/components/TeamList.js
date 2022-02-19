@@ -3,9 +3,11 @@ import axios from 'axios'
 import BootStrapTable from 'react-bootstrap-table-next'
 import paginationFactory from 'react-bootstrap-table2-paginator'
 import {Modal, Button, Row, Col } from 'react-bootstrap'
+import Moment from 'moment'
 
 const TeamList = () => {
     const[teams, setTeams] = useState([]);
+    const[gameInfo, setGameInfo] = useState([]);
     const[games, setGames] = useState([]);
     const[modalInfo, setModalInfo] = useState([]);
     const[showModal, setShowModal] = useState(false);
@@ -16,21 +18,31 @@ const TeamList = () => {
 
     const getTeamsData = async() => {
         try {
-            const data = await axios.get("https://www.balldontlie.io/api/v1/teams");
+            const data = await axios.get("https://www.balldontlie.io/api/v1/teams", {
+                headers: {
+                    "Access-Control-Allow-Origin": "http://localhost:3000/"
+                    }
+            });
             setTeams(data.data.data);
         } catch (err) {
          console.log(err);
         }
     };
 
-    const getGameData = async() =>{
+    const getGameData = async(row) =>{
         try{
-            const data = await axios.get("https://www.balldontlie.io/api/v1/games?seasons[]=2021", {
+            const data = await axios.get("https://www.balldontlie.io/api/v1/games", {
+                params: {
+                    seasons : [2021],
+                    team_ids : [row.id]
+                },
                 headers: {
                     "Access-Control-Allow-Origin": "http://localhost:3000/"
                     }
             });
-            setGames(data.data.data);
+            setModalInfo(row)
+            setGameInfo(data.data.data);
+            setGames(data.data.meta);
         } catch(err){
             console.log(err);
         }
@@ -38,7 +50,6 @@ const TeamList = () => {
 
     useEffect(() => {
         getTeamsData();
-        getGameData();
     }, []);
     
     const columns = [
@@ -49,23 +60,21 @@ const TeamList = () => {
         {dataField: "division", text:"Division"}
     ];
 
-    const rowEvents = {
-        onClick: (e, row) => {
-            console.log(row);
-            setModalInfo(row);
-            toggleTrueFalse();
-        },
-    }
-
     const toggleTrueFalse= () => {
         setShowModal(handleShow);
     }
 
-    let countGame = games.filter((game) => {
-        return game
-    })
+    const rowEvents = {
+        onClick: (e, row) => {
+            console.log(row);
+            getGameData(row);
+            toggleTrueFalse();
+        },
+    }
 
-    console.log(countGame)
+    let countGame = gameInfo.find((game) =>  game.seasons === "2021")
+
+    console.log(gameInfo)
 
     const ModalContent = () => {
         return(
@@ -85,6 +94,49 @@ const TeamList = () => {
                 <Row>
                     <Col xs={10} md={8}>
                     Total Games in 2021
+                    </Col>
+                    <Col xs={8} md={4}>
+                        {games.total_count}
+                    </Col>
+                </Row>
+                <Row>
+                    <Col xs={10} md={8}>
+                        Random Game Details:
+                    </Col>
+                </Row>
+                <Row>
+                    <Col xs={10} md={8}>
+                        Date:
+                    </Col>
+                    <Col xs={8} md={4}>
+                        {}
+                    </Col>
+                </Row>
+                <Row>
+                    <Col xs={10} md={8}>
+                        Home Team:
+                    </Col>
+                    <Col xs={8} md={4}>
+                        {}
+                    </Col>
+                </Row>
+                <Row>
+                    <Col xs={10} md={8}>
+                        Home Team Score:
+                    </Col>
+                    <Col xs={8} md={4}>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col xs={10} md={8}>
+                        Visitor Team:
+                    </Col>
+                    <Col xs={8} md={4}>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col xs={10} md={8}>
+                        Visitor Team Score:
                     </Col>
                     <Col xs={8} md={4}>
                         
