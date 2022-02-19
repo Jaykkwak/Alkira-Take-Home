@@ -8,6 +8,8 @@ import Moment from 'moment'
 const TeamList = () => {
     const[teams, setTeams] = useState([]);
     const[gameInfo, setGameInfo] = useState([]);
+    const[home_team, setHome_team] = useState([]);
+    const[visitor_team, setVisitor_team] = useState([]);
     const[games, setGames] = useState([]);
     const[modalInfo, setModalInfo] = useState([]);
     const[showModal, setShowModal] = useState(false);
@@ -41,7 +43,9 @@ const TeamList = () => {
                     }
             });
             setModalInfo(row)
-            setGameInfo(data.data.data);
+            setGameInfo(data.data.data[0]);
+            setHome_team(data.data.data[0].home_team)
+            setVisitor_team(data.data.data[0].visitor_team);
             setGames(data.data.meta);
         } catch(err){
             console.log(err);
@@ -72,9 +76,7 @@ const TeamList = () => {
         },
     }
 
-    let countGame = gameInfo.find((game) =>  game.seasons === "2021")
-
-    console.log(gameInfo)
+    console.log(gameInfo);
 
     const ModalContent = () => {
         return(
@@ -109,7 +111,7 @@ const TeamList = () => {
                         Date:
                     </Col>
                     <Col xs={8} md={4}>
-                        {}
+                        {Moment(gameInfo.date).format("YYYY-MM-DD")}
                     </Col>
                 </Row>
                 <Row>
@@ -117,7 +119,7 @@ const TeamList = () => {
                         Home Team:
                     </Col>
                     <Col xs={8} md={4}>
-                        {}
+                         {home_team.name}
                     </Col>
                 </Row>
                 <Row>
@@ -125,6 +127,7 @@ const TeamList = () => {
                         Home Team Score:
                     </Col>
                     <Col xs={8} md={4}>
+                        {gameInfo.home_team_score}
                     </Col>
                 </Row>
                 <Row>
@@ -132,6 +135,7 @@ const TeamList = () => {
                         Visitor Team:
                     </Col>
                     <Col xs={8} md={4}>
+                         {visitor_team.name} 
                     </Col>
                 </Row>
                 <Row>
@@ -139,7 +143,7 @@ const TeamList = () => {
                         Visitor Team Score:
                     </Col>
                     <Col xs={8} md={4}>
-                        
+                        {gameInfo.visitor_team_score}
                     </Col>
                 </Row>
 
