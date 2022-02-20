@@ -159,6 +159,7 @@ const TeamList = () => {
         <div>
             <BootStrapTable 
             keyField="id"
+            classes="teamTable"
             data={teams}
             columns={columns}
             pagination={paginationFactory({ sizePerPage: 8, hideSizePerPage: true })}
