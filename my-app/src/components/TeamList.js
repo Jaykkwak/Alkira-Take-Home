@@ -4,13 +4,13 @@ import SidePanel from './SidePanel'
 import BootStrapTable from 'react-bootstrap-table-next'
 import paginationFactory from 'react-bootstrap-table2-paginator'
 
+
 const TeamList = () => {
     const[teams, setTeams] = useState([]);
     const[modalInfo, setModalInfo] = useState([]);
 
     const[show, setShow] = useState(false);
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
 
     const getTeamsData = async() => {
         try {
@@ -30,8 +30,8 @@ const TeamList = () => {
     }, []);
     
     const columns = [
-        {dataField: "name", text:"Team Name"},
-        {dataField: "city", text:"City"},
+        {dataField: "name", text:"Team Name", sort:"true"},
+        {dataField: "city", text:"City", sort:"true"},
         {dataField: "abbreviation", text:"Abbreviation"},
         {dataField: "conference", text:"Conference"},
         {dataField: "division", text:"Division"}
@@ -42,7 +42,6 @@ const TeamList = () => {
             console.log(row);
             setModalInfo(row)
             setShow(true);
-
         },
     }
 
@@ -56,7 +55,7 @@ const TeamList = () => {
             pagination={paginationFactory({ sizePerPage: 8, hideSizePerPage: true })}
             rowEvents={rowEvents}
             />
-            {show ? <SidePanel modalInfo={modalInfo} handleClose={handleClose} /> : null}
+            {show ? <SidePanel modalInfo={modalInfo} handleClose={handleClose}/> : null}
         </div>
     );
 

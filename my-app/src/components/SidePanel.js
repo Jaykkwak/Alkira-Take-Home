@@ -30,7 +30,7 @@ const SidePanel = (props) => {
 
     useEffect(() => {
         getGameData(props.modalInfo.id);
-    }, []);
+    }, [props.modalInfo.id]);
 
     return (
         <div className="sidepanel-wrapper">
@@ -70,6 +70,7 @@ const SidePanel = (props) => {
                 </div>
             </div>
         </div>
+
     )
 }
 
