@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
+import SidePanel from './SidePanel'
 import BootStrapTable from 'react-bootstrap-table-next'
 import paginationFactory from 'react-bootstrap-table2-paginator'
 import {Modal, Button, Row, Col } from 'react-bootstrap'
@@ -64,15 +65,12 @@ const TeamList = () => {
         {dataField: "division", text:"Division"}
     ];
 
-    const toggleTrueFalse= () => {
-        setShowModal(handleShow);
-    }
-
     const rowEvents = {
         onClick: (e, row) => {
             console.log(row);
             getGameData(row);
-            toggleTrueFalse();
+            setShow(true);
+
         },
     }
 
@@ -80,7 +78,7 @@ const TeamList = () => {
 
     const ModalContent = () => {
         return(
-            <Modal show={show} onHide ={handleClose}>
+            <Modal show={show}>
                 <Modal.Header closeButton>
                     <Modal.Title> {modalInfo.name}</Modal.Title>
                 </Modal.Header>
@@ -149,7 +147,7 @@ const TeamList = () => {
 
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button vriant="secondary" onClick={handleClose}>Close</Button>
+                    <Button vriant="secondary">Close</Button>
                 </Modal.Footer>
             </Modal>
         )
@@ -165,7 +163,7 @@ const TeamList = () => {
             pagination={paginationFactory({ sizePerPage: 8, hideSizePerPage: true })}
             rowEvents={rowEvents}
             />
-            {show ? <ModalContent /> : null}
+            {show ? <SidePanel modalInfo={modalInfo} games={games} handleClose={handleClose} /> : null}
         </div>
     );
 
