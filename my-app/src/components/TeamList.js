@@ -3,7 +3,9 @@ import axios from 'axios'
 import SidePanel from './SidePanel'
 import BootStrapTable from 'react-bootstrap-table-next'
 import paginationFactory from 'react-bootstrap-table2-paginator'
+import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit';
 
+const {SearchBar} = Search
 
 const TeamList = () => {
     const[teams, setTeams] = useState([]);
@@ -47,15 +49,27 @@ const TeamList = () => {
 
     return (
         <div>
-            <BootStrapTable 
+            <ToolkitProvider
             keyField="id"
-            classes="teamTable"
             data={teams}
             columns={columns}
-            pagination={paginationFactory({ sizePerPage: 8, hideSizePerPage: true })}
-            rowEvents={rowEvents}
-            />
-            {show ? <SidePanel modalInfo={modalInfo} handleClose={handleClose}/> : null}
+            search 
+            > 
+            {
+                props => (
+                    <div>
+                        <div className='title'>NBA TEAMS</div>
+                        <SearchBar {...props.searchProps} sr-only={"hello"}/>
+                        <BootStrapTable 
+                        {...props.baseProps}
+                        rowEvents={rowEvents}
+                        pagination={paginationFactory({ sizePerPage: 8, hideSizePerPage: true })}
+                        />
+                        {show ? <SidePanel modalInfo={modalInfo} handleClose={handleClose}/> : null}
+                    </div>
+                )
+            }
+            </ToolkitProvider>
         </div>
     );
 
