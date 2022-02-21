@@ -1,7 +1,36 @@
-import React from 'react'
-import useEffect from 'react'
+import React, { useEffect, useState } from 'react'
+import axios from 'axios'
+import Moment from 'moment'
 
 const SidePanel = (props) => {
+    const[gameInfo, setGameInfo] = useState([]);
+    const[home_team, setHome_team] = useState([]);
+    const[visitor_team, setVisitor_team] = useState([]);
+    const[games, setGames] = useState([]);
+
+    const getGameData = async(id) =>{
+        try{
+            const data = await axios.get("https://www.balldontlie.io/api/v1/games", {
+                params: {
+                    seasons : [2021],
+                    team_ids : [id]
+                },
+                headers: {
+                    "Access-Control-Allow-Origin": "http://localhost:3000/"
+                    }
+            });
+            setGameInfo(data.data.data[0]);
+            setHome_team(data.data.data[0].home_team)
+            setVisitor_team(data.data.data[0].visitor_team);
+            setGames(data.data.meta);
+        } catch(err){
+            console.log(err);
+        }
+    };
+
+    useEffect(() => {
+        getGameData(props.modalInfo.id);
+    }, []);
 
     return (
         <div className="sidepanel-wrapper">
@@ -17,7 +46,7 @@ const SidePanel = (props) => {
                     </div>
                     <div className="teamInfo-right">
                         <span>{props.modalInfo.full_name}</span>
-                        <span>{props.games.total_count}</span>
+                        <span>{games.total_count}</span>
                     </div>
                 </div>
 
@@ -32,10 +61,11 @@ const SidePanel = (props) => {
                         <span>Visitor Team Score</span>
                     </div>
                     <div className="body-right">
-                        <span>Date</span>
-                        <span>Date</span>
-                        <span>Date</span>
-                        <span>Date</span>
+                        <span>{Moment(gameInfo.date).format("YYYY-MM-DD")}</span>
+                        <span>{home_team.name}</span>
+                        <span>{gameInfo.home_team_score}</span>
+                        <span>{visitor_team.name} </span>
+                        <span>{gameInfo.visitor_team_score}</span>
                     </div>
                 </div>
             </div>
