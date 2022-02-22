@@ -87,6 +87,15 @@ td:last-child, th:last-child {
   left: 0;
   z-index: 99;
   background: rgba(0, 0, 0, 0.5);
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 1s linear 0s, opacity 300ms;
+}
+
+.sidepanel-wrapper-hidden{
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 1s linear 300ms, opacity 300ms;
 }
 
 .sidepanel{

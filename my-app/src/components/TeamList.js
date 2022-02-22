@@ -25,7 +25,7 @@ const TeamList = () => {
         } catch (err) {
          console.log(err);
         }
-    };
+    };  
 
     useEffect(() => {
         getTeamsData();
@@ -38,6 +38,9 @@ const TeamList = () => {
         {dataField: "conference", text:"Conference"},
         {dataField: "division", text:"Division"}
     ];
+
+    const style = { opacity: 1, transition: "all 2s ease-in"}
+    const style1 = { opacity: 0}
 
     const rowEvents = {
         onClick: (e, row) => {
@@ -59,13 +62,13 @@ const TeamList = () => {
                 props => (
                     <div>
                         <div className='title'>NBA TEAMS</div>
-                        <SearchBar {...props.searchProps} sr-only={"hello"}/>
+                        <SearchBar {...props.searchProps} />
                         <BootStrapTable 
                         {...props.baseProps}
                         rowEvents={rowEvents}
                         pagination={paginationFactory({ sizePerPage: 8, hideSizePerPage: true })}
                         />
-                        {show ? <SidePanel modalInfo={modalInfo} handleClose={handleClose}/> : null}
+                        <SidePanel modalInfo={modalInfo} handleClose={handleClose} show={show}/>
                     </div>
                 )
             }

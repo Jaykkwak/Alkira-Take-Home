@@ -33,7 +33,7 @@ const SidePanel = (props) => {
     }, [props.modalInfo.id]);
 
     return (
-        <div className="sidepanel-wrapper">
+        <div className={props.show ? "sidepanel-wrapper" : "sidepanel-wrapper-hidden"}>
             <div className="sidepanel">
                 <div className="sidepanel-title">
                     <div className="team-name">{props.modalInfo.name}</div>
