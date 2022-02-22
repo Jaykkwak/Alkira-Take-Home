@@ -50,9 +50,7 @@ const SidePanel = (props) => {
                         <span>{games.total_count}</span>
                     </div>
                 </div>
-
                 <div className="game-details-title"> Random Game Details </div>
-
                 <div className="sidelpanel-body">
                     <div className="body-left">
                         <span>Date</span>

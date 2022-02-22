@@ -84,7 +84,6 @@ const TeamList = () => {
             </ToolkitProvider>
         </div>
     );
-
 }
 
 export default TeamList
