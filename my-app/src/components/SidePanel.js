@@ -13,9 +13,10 @@ const SidePanel = (props) => {
             const data = await axios.get("https://www.balldontlie.io/api/v1/games", {
                 params: {
                     seasons : [2021],
-                    team_ids : [id]
+                    team_ids : id ? [id] : 0
                 },
                 headers: {
+                    "Content-Type" : "application/json",
                     "Access-Control-Allow-Origin": "http://localhost:3000/"
                     }
             });

@@ -56,14 +56,14 @@ tbody, td, th{
 }
 
 tbody tr{
-  background-color:  rgb(247, 251, 253) !important;
+  background-color:  rgb(247, 251, 253);
   border-top: 2px solid white !important;
   border-bottom: 2.5px solid white !important;
   border-radius: 20px !important;
 }
 
 tbody tr:hover{
-  background-color: rgb(198, 226, 218) !important;
+  background-color: rgb(198, 226, 218) !important;  
   cursor: pointer;
 }
 

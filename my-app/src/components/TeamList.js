@@ -18,6 +18,7 @@ const TeamList = () => {
         try {
             const data = await axios.get("https://www.balldontlie.io/api/v1/teams", {
                 headers: {
+                    "Content-Type" : "application/json",
                     "Access-Control-Allow-Origin": "http://localhost:3000/"
                     }
             });
@@ -39,13 +40,20 @@ const TeamList = () => {
         {dataField: "division", text:"Division"}
     ];
 
-    const style = { opacity: 1, transition: "all 2s ease-in"}
-    const style1 = { opacity: 0}
+    const rowStyle = (row, rowIndex) => {
+        row.index = rowIndex;
+        const style = {}
+        if( rowIndex === modalInfo.id - 1){
+            style.backgroundColor = 'rgb(198, 226, 218)';
+        }
+
+        return style;
+    }
 
     const rowEvents = {
         onClick: (e, row) => {
             console.log(row);
-            setModalInfo(row)
+            setModalInfo(row);
             setShow(true);
         },
     }
@@ -66,10 +74,11 @@ const TeamList = () => {
                         <BootStrapTable 
                         {...props.baseProps}
                         rowEvents={rowEvents}
+                        rowStyle={ show ? rowStyle : null}
                         pagination={paginationFactory({ sizePerPage: 8, hideSizePerPage: true })}
                         />
                         <SidePanel modalInfo={modalInfo} handleClose={handleClose} show={show}/>
-                    </div>
+                        </div>
                 )
             }
             </ToolkitProvider>
