@@ -1,5 +1,3 @@
-# Alkira-Take-Home
-
 ## Available Scripts
 
 ### `npm start`
